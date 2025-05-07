@@ -88,6 +88,7 @@ def main():
     st.title('Colloquial Currency Converter')
     st.sidebar.header('Change denomination type')
 
+    
     # Path to the YAML file
     yaml_file_path = os.path.join(os.path.dirname(__file__), 'colloquial_denominations.yml')
 
