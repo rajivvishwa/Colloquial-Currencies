@@ -1,0 +1,10 @@
+USD:
+  Thousand: 1000
+  Million: 1000000
+  Billion: 1000000000
+INR:
+  Thousand: 1000
+  Lakh: 100000
+  Crore: 10000000
+AUD:
+  Lobster: 20
