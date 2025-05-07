@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN git clone https://github.com/rajivvishwa/ColloquialCurrencies.git .
 
-RUN uv sync --frozen --no-cache
+RUN uv sync
 
 ENV PATH="/app/.venv/bin:$PATH"
 
