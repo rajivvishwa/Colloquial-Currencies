@@ -89,7 +89,7 @@ def main():
     st.sidebar.header('Change denomination type')
 
     # Path to the YAML file
-    yaml_file_path = os.path.join(os.path.dirname(__file__), 'colloquial_denominations.yaml')
+    yaml_file_path = os.path.join(os.path.dirname(__file__), 'colloquial_denominations.yml')
 
     # Load the denominations into a dictionary
     colloquial_denominations = load_colloquial_denominations(yaml_file_path)
