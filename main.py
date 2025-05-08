@@ -32,6 +32,7 @@ def get_country_code():
         config_env = Path(__file__).parent / 'config' / 'config_default.env'
     
     load_dotenv(config_env)
+    print(f'Loading config file from {config_env}')
     api_key = os.getenv("XCNG_API_TOKEN")
     api_url = f'{os.getenv("XCNG_API_URL")}/{api_key}/codes'
     
