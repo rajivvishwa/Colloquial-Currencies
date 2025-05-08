@@ -104,7 +104,6 @@ def main():
     st.title('Colloquial Currency Converter')
     st.sidebar.header('Change denomination type')
 
-
     # Yaml file containing colloquial denominations. Located in the config folder   
     if (Path(__file__).parent / 'config' / 'colloquial_denominations.yml').exists():
         # Load the data from the user defined colloquial denominations
@@ -120,7 +119,18 @@ def main():
 
     # Load the denominations into a dictionary
     colloquial_denominations = load_colloquial_denominations(yaml_file_path)
-    
+
+    if (Path(__file__).parent / 'config' / 'config.env').exists():
+        # Load the environment variables from the user defined config file
+        config_env = Path(__file__).parent / 'config' / 'config.env'
+    else:
+        # if not found load the default config file
+        config_env = Path(__file__).parent / 'config' / 'config_default.env'
+
+    if not os.path.exists(config_env):
+        st.error(f"Config file not found at {config_env}")
+        return
+
     # Initialize session state variables if they don't exist
     if 'from_currency' not in st.session_state:
         st.session_state.from_currency = 'USD'
@@ -133,6 +143,21 @@ def main():
                               help='Colloquial: 1 Million, 1 Lakh, etc.\nFixed: 1, 10, 100, etc.')
     
 
+
+    with st.sidebar.popover('Config Settings Info', icon="⚙️", 
+                        help='See the loaded config files '):
+        st.write('Colloquial denominations file:')
+        with open(yaml_file_path, 'r') as file:
+            deno_content = file.read()
+        st.code(deno_content, language='yaml')
+        st.write("Path:", yaml_file_path)
+        st.write('Config file:')
+        with open(config_env, 'r') as file:
+            config_content = file.read()
+        st.code(config_content, language='cfg')
+        st.write("Path:", config_env)
+
+    # Display the select boxes for currency selection
 
     col1, col2, col3 = st.columns(3, vertical_alignment="bottom", border=False)
     with col1:
