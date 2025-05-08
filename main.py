@@ -6,6 +6,9 @@ import pandas as pd
 from forex_python.converter import CurrencyCodes
 import yaml
 from pathlib import Path
+from rich import print
+
+# Initialize the console for Rich
 
 # Load colloquial denominations from a YAML file
 def load_colloquial_denominations(file_path: str) -> dict[str, dict[str, int]]:
@@ -32,7 +35,6 @@ def get_country_code():
         config_env = Path(__file__).parent / 'config' / 'config_default.env'
     
     load_dotenv(config_env)
-    print(f'Loading config file from {config_env}')
     api_key = os.getenv("XCNG_API_TOKEN")
     api_url = f'{os.getenv("XCNG_API_URL")}/{api_key}/codes'
     
@@ -132,13 +134,15 @@ def main():
         st.error(f"Config file not found at {config_env}")
         return
 
+    print(f'Loading config file from [italic blue]`{config_env}`[italic]')
+
+
     # Initialize session state variables if they don't exist
     if 'from_currency' not in st.session_state:
         st.session_state.from_currency = 'USD'
     if 'to_currency' not in st.session_state:
         st.session_state.to_currency = 'INR'
         
-    code = get_country_code()
     
     op = st.sidebar.selectbox('Select an option', ['Colloquial', 'Fixed'], index=0, 
                               help='Colloquial: 1 Million, 1 Lakh, etc.\nFixed: 1, 10, 100, etc.')
@@ -159,6 +163,9 @@ def main():
         st.write("Path:", config_env)
 
     # Display the select boxes for currency selection
+    code = get_country_code()
+
+    print(f'Loaded {len(code)} currency codes.')
 
     col1, col2, col3 = st.columns(3, vertical_alignment="bottom", border=False)
     with col1:
