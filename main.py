@@ -135,7 +135,7 @@ def main():
         return
 
     print(f'Loading config file from [italic blue]`{config_env}`[italic]')
-
+    print(f'Loading denominations file from [italic blue]`{yaml_file_path}`[italic]')
 
     # Initialize session state variables if they don't exist
     if 'from_currency' not in st.session_state:
