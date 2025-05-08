@@ -1,7 +1,7 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Image - Manual Trigger
 
 on:
-  push:
+  [workflow_dispatch]
 
 jobs:
   docker:
