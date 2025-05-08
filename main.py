@@ -119,6 +119,11 @@ def converter(base, target, amount, colloquial_denominations):
         st.text(f'Converted Amount: {result}')
 
 def main():
+    PAGE_CONFIG = {"page_title":"Colloquial Currency Converter",
+                  "page_icon":"💵",
+                  "initial_sidebar_state":"expanded"}
+    st.set_page_config(**PAGE_CONFIG)
+
     st.title('Colloquial Currency Converter')
     st.sidebar.header('Change denomination type')
 
