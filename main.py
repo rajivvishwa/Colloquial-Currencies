@@ -7,6 +7,8 @@ from forex_python.converter import CurrencyCodes
 import yaml
 from pathlib import Path
 from rich import print
+from rich.console import Console
+console = Console()
 
 # Initialize the console for Rich
 
@@ -134,8 +136,7 @@ def main():
         st.error(f"Config file not found at {config_env}")
         return
 
-    print(f'Loading config file from [italic blue]`{config_env}`[italic]')
-    print(f'Loading denominations file from [italic blue]`{yaml_file_path}`[italic]')
+
 
     # Initialize session state variables if they don't exist
     if 'from_currency' not in st.session_state:
@@ -157,10 +158,17 @@ def main():
         st.code(deno_content, language='yaml')
         st.write("Path:", yaml_file_path)
         st.write('Config file:')
+        print(f'Loading denominations file from [italic blue]`{yaml_file_path}`[italic]')
+        console.print(deno_content)
+        print
+
         with open(config_env, 'r') as file:
             config_content = file.read()
         st.code(config_content, language='cfg')
         st.write("Path:", config_env)
+        print(f'Loading config file from [italic blue]`{config_env}`[italic]')
+        console.print(config_content)
+
 
     # Display the select boxes for currency selection
     code = get_country_code()
