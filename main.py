@@ -5,6 +5,7 @@ import requests
 import pandas as pd
 from forex_python.converter import CurrencyCodes
 import yaml
+from pathlib import Path
 
 # Load colloquial denominations from a YAML file
 def load_colloquial_denominations(file_path: str) -> dict[str, dict[str, int]]:
@@ -88,9 +89,14 @@ def main():
     st.title('Colloquial Currency Converter')
     st.sidebar.header('Change denomination type')
 
+
+    # Yaml file containing colloquial denominations. Located in the config folder
+    yaml_file_path = Path(__file__).parent / 'config' / 'colloquial_denominations.yml'
     
-    # Path to the YAML file
-    yaml_file_path = os.path.join(os.path.dirname(__file__), 'colloquial_denominations.yml')
+    # Check if the file exists
+    if not os.path.exists(yaml_file_path):
+        st.error(f"Config YAML file not found at {yaml_file_path}")
+        return
 
     # Load the denominations into a dictionary
     colloquial_denominations = load_colloquial_denominations(yaml_file_path)
