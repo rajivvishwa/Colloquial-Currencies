@@ -29,7 +29,7 @@ def load_colloquial_denominations(file_path: str) -> dict[str, dict[str, int]]:
 
 def get_country_code():
 
-    if (Path(__file__).parent / 'config' / 'config_default.env').exists():
+    if (Path(__file__).parent / 'config' / 'config.env').exists():
         # Load the environment variables from the user defined config file
         config_env = Path(__file__).parent / 'config' / 'config.env'
     else:
@@ -40,14 +40,25 @@ def get_country_code():
     api_key = os.getenv("XCNG_API_TOKEN")
     api_url = f'{os.getenv("XCNG_API_URL")}/{api_key}/codes'
     
-    res = requests.get(api_url).json()
-    country = res['supported_codes']
+    # Check if the API URL is valid
+    if not api_url.startswith('https://'):
+        st.error("Invalid API URL. Please check your configuration.")
+        console.print(f"Invalid API URL: {api_url}")
+        return []
 
-    code = []
-    for i in country:
-        code.append(i[0])
+    # Make a request to the API to get the supported currency codes
+    try:
+        res = requests.get(api_url)
+        res.raise_for_status()  # Raise an error for bad responses
+        country = res['supported_codes']
+        code = []
+        for i in country:
+            code.append(i[0])
+        return code
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching data from API: {e}")
+        return []
 
-    return code
 
 def converter(base, target, amount, colloquial_denominations):
     if (Path(__file__).parent / 'config' / 'config_default.env').exists():
