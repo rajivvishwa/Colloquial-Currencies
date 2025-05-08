@@ -23,7 +23,15 @@ def load_colloquial_denominations(file_path: str) -> dict[str, dict[str, int]]:
         return data
 
 def get_country_code():
-    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+
+    if (Path(__file__).parent / 'config' / 'config_default.env').exists():
+        # Load the environment variables from the user defined config file
+        config_env = Path(__file__).parent / 'config' / 'config.env'
+    else:
+        # if not found load the default config file
+        config_env = Path(__file__).parent / 'config' / 'config_default.env'
+    
+    load_dotenv(config_env)
     api_key = os.getenv("XCNG_API_TOKEN")
     api_url = f'{os.getenv("XCNG_API_URL")}/{api_key}/codes'
     
@@ -37,7 +45,14 @@ def get_country_code():
     return code
 
 def converter(base, target, amount, colloquial_denominations):
-    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+    if (Path(__file__).parent / 'config' / 'config_default.env').exists():
+        # Load the environment variables from the user defined config file
+        config_env = Path(__file__).parent / 'config' / 'config.env'
+    else:
+        # if not found load the default config file
+        config_env = Path(__file__).parent / 'config' / 'config_default.env'
+    
+    load_dotenv(config_env)
     api_key = os.getenv("XCNG_API_TOKEN")
     api_url = f'{os.getenv("XCNG_API_URL")}/{api_key}/pair/{base}/{target}/{amount}'
 
@@ -90,9 +105,14 @@ def main():
     st.sidebar.header('Change denomination type')
 
 
-    # Yaml file containing colloquial denominations. Located in the config folder
-    yaml_file_path = Path(__file__).parent / 'config' / 'colloquial_denominations.yml'
-    
+    # Yaml file containing colloquial denominations. Located in the config folder   
+    if (Path(__file__).parent / 'config' / 'colloquial_denominations.yml').exists():
+        # Load the data from the user defined colloquial denominations
+        yaml_file_path = Path(__file__).parent / 'config' / 'colloquial_denominations.yml'
+    else:
+        # if not found load the default colloquial denominations file
+        yaml_file_path = Path(__file__).parent / 'config' / 'colloquial_denominations_default.yml'
+
     # Check if the file exists
     if not os.path.exists(yaml_file_path):
         st.error(f"Config YAML file not found at {yaml_file_path}")

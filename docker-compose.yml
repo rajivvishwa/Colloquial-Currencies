@@ -8,8 +8,8 @@ services:
     ports:
       - "8501:8501"
     volumes:
-      # Mount the .env file from the host to the root directory of the container
-      - .env:/app/.env
+      - config/config.env:/app/config/config.env
+      - config/colloquial_denominations.yml:/app/config/colloquial_denominations.yml
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8501/_stcore/health"]
       interval: 30s
