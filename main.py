@@ -170,11 +170,11 @@ def main():
             deno_content = file.read()
         st.code(deno_content, language='yaml')
         st.write("Path:", yaml_file_path)
-        st.write('Config file:')
         print(f'Loading denominations file from [italic blue]`{yaml_file_path}`[italic]')
         console.print(deno_content)
-        print
 
+
+        st.write('Config file:')
         with open(config_env, 'r') as file:
             config_content = file.read()
         st.code(config_content, language='cfg')
