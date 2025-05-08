@@ -50,10 +50,12 @@ def get_country_code():
     try:
         res = requests.get(api_url)
         res.raise_for_status()  # Raise an error for bad responses
-        country = res['supported_codes']
+        data = res.json()
+        country = data['supported_codes']
         code = []
         for i in country:
             code.append(i[0])
+        print(f'Loaded {len(code)} currency codes.')
         return code
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching data from API: {e}")
@@ -184,7 +186,6 @@ def main():
     # Display the select boxes for currency selection
     code = get_country_code()
 
-    print(f'Loaded {len(code)} currency codes.')
 
     col1, col2, col3 = st.columns(3, vertical_alignment="bottom", border=False)
     with col1:
